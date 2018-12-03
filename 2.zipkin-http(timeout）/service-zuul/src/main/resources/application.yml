@@ -1,0 +1,38 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: service-zuul
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+zuul:
+  routes:
+    user-route1:                   # 该配置方式中，user-route只是给路由一个名称，可以任意起名。
+      service-id: SERVICE-FEIGN-HYSTRIX
+      path: /feign/**              # service-id对应的路径
+    user-route2:                   # 该配置方式中，user-route只是给路由一个名称，可以任意起名。
+      service-id: SERVICE-RIBBON
+      path: /ribbon/**              # service-id对应的路径
+#  host:
+#    connect-timeout-millis: 60000
+#    socket-timeout-millis: 60000 
+hystrix: 
+  command: 
+    default: 
+      execution: 
+        isolation: 
+          thread: 
+            timeoutInMilliseconds: 60000
+security:
+  basic:
+    enabled: true               # 开启基于HTTP basic的认证
+  user:
+    name: xuwh                  # 配置登录的账号是user
+    password: password123       # 配置登录的密码是password123
